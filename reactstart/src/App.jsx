@@ -1,6 +1,5 @@
-import { useState, useCallback,useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import './index.css';
-import { use } from "react";
 
 function App() {
   const [length, setLength] = useState(8);
@@ -8,20 +7,49 @@ function App() {
   const [char, setChar] = useState(false);
   const [password, setPassword] = useState('');
 
+  // Ref hook
+  const passwordRef = useRef(null);
+
+  // Generate password
   const passwordGenerator = useCallback(() => {
     let pass = '';
     let string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     if (number) string += '0123456789';
     if (char) string += '!@#$%^&*()_+';
 
-    for (let i = 1; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       let charIndex = Math.floor(Math.random() * string.length);
       pass += string.charAt(charIndex);
     }
 
     setPassword(pass);
-  }, [length, number, char,setPassword]);
-  useEffect(() => {passwordGenerator()},[length,number,char,passwordGenerator])
+  }, [length, number, char]);
+
+  // Copy password
+  const copyPassword = useCallback(() => {
+    if (passwordRef.current) {
+      const input = passwordRef.current;
+
+      // Temporarily remove readOnly
+      input.readOnly = false;
+
+      // Select and copy
+      input.select();
+      input.setSelectionRange(0, 99999); // For mobile devices
+      document.execCommand('copy');
+
+      // Reapply readOnly
+      input.readOnly = true;
+
+      alert("Password copied to clipboard!");
+    }
+  }, [password]);
+
+  // Generate password on initial render or dependency change
+  useEffect(() => {
+    passwordGenerator();
+  }, [length, number, char, passwordGenerator]);
+
   return (
     <>
       <h1 className="text-5xl font-bold text-center text-white mb-6">PASSWORD GENERATOR</h1>
@@ -34,10 +62,11 @@ function App() {
             className="outline-none w-full py-2 px-4 text-gray-800 text-lg"
             placeholder="Generated password"
             readOnly
+            ref={passwordRef}
           />
           <button
             className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 transition duration-300 ease-in-out"
-            onClick={() => navigator.clipboard.writeText(password)}
+            onClick={copyPassword}
           >
             Copy
           </button>
