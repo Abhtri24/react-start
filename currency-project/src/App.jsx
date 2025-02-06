@@ -46,7 +46,7 @@ function App() {
                             amount={amount}
                             currencyOptions={options}
                             onCurrencyChange={(currency)=>{
-                              SetAmount(amount)
+                              setFrom(currency)
                             }}
                             selectCurrency={from}
                             onAmountChange={(amount)=>{
@@ -72,7 +72,7 @@ function App() {
                             onCurrencyChange={(currency)=>{
                               setTo(currency)
                             }}
-                            selectCurrency={from}
+                            selectCurrency={to}
                             amountDisable
                             
                         />
