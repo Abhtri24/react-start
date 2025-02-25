@@ -1,0 +1,37 @@
+.array-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    height: 500px;
+    margin-bottom: 20px; /* Space between bars and buttons */
+  }
+  
+  .array-bar {
+    width: 4px;
+    margin: 0 1px;
+    background-color: teal;
+    transition: height 0.2s ease-in-out;
+  }
+  
+  /* Centering Buttons */
+  .button-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Space between buttons */
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: darkcyan;
+  }
+  
